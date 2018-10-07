@@ -1,0 +1,11 @@
+[req]
+req_extensions = ext
+distinguished_name = dn
+prompt = no
+
+[ext]
+keyUsage = keyAgreement, keyEncipherment, digitalSignature
+extendedKeyUsage = ${ENV::EKU}
+
+[dn]
+CN = ${ENV::CN}

@@ -1,0 +1,33 @@
+[req]
+x509_extensions = ca_ext
+distinguished_name = dn
+prompt = no
+
+[dn]
+# Specified on the command line
+
+[ca_ext]
+basicConstraints = CA:TRUE
+keyUsage = keyAgreement, keyEncipherment, digitalSignature, keyCertSign, cRLSign
+
+[ca]
+default_ca = ca1
+
+[ca1]
+certificate = ${ENV::CA_DATA_DIR}/ca.crt
+private_key = ${ENV::CA_DATA_DIR}/ca.key
+new_certs_dir = ${ENV::CA_DATA_DIR}/certs
+default_days = 365
+default_md = sha256
+database = ${ENV::CA_DATA_DIR}/index.txt
+serial = ${ENV::CA_DATA_DIR}/ca.srl
+policy = ca_policy
+copy_extensions = copy
+x509_extensions = x509_extensions
+unique_subject = no
+
+[ca_policy]
+commonName = supplied
+
+[x509_extensions]
+basicConstraints = CA:FALSE
