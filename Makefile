@@ -4,8 +4,14 @@ export ALTN1
 export ALTN2
 export ALTN3
 
+# Generate ECDSA keys by default.
+KT ?= ec:cnf/prime256v1.params
+
 DAYS ?= 365
 CLIENT ?= 0
+
+CA_DN ?=
+CA_DAYS ?= 3653
 CA_DATA_DIR ?= ./data
 
 .PHONY: ca check-ca-data clean clean-ca
@@ -21,17 +27,18 @@ $(CA_DATA_DIR)/ca.crt: cnf/ca.cnf
 	openssl req \
 		-out $@ \
 		-keyout $(@:.crt=.key) \
-		-newkey ec:cnf/prime256v1.params \
+		-newkey $(KT) \
 		-sha256 \
 		-nodes \
-		-days 3653 \
+		-days $(CA_DAYS) \
 		-x509 \
 		-config $< \
 		-subj "$(CA_DN)" \
 		-text
 
 check-ca-data:
-	@[ ! -e $(CA_DATA_DIR) ] || { printf '\n *** CA data already exists! Use "make clean-ca" to wipe. ***\n\n'; exit 1; }
+	@[ ! -e "$(CA_DATA_DIR)" ] || { printf '\n *** CA data already exists! Use "make clean-ca" to wipe. ***\n\n'; exit 1; }
+	@[ -n "$(CA_DN)" ] || { printf '\n *** CA_DN is not specified ***\n\n'; exit 1; }
 
 $(CA_DATA_DIR):
 	mkdir $@
@@ -49,7 +56,7 @@ endif
 	openssl req \
 		-out $@ \
 		-keyout $(@:.csr=.key) \
-		-newkey ec:cnf/prime256v1.params \
+		-newkey $(KT) \
 		-nodes \
 		-text \
 		-config cnf/cert0$(ALTN1:%=1)$(ALTN2:%=2)$(ALTN3:%=3).cnf

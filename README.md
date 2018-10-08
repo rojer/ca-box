@@ -18,9 +18,14 @@ Edit the certificate subject to suit your needs.
 
 This only needs to be done once.
 
+### Optional Parameters
+
+ * `CA_DAYS` - validity for the root certificate, in days. The default is 2653 (~10 years).
+ * `KT` - key type. Specifies the key type to use when generating certificate, see documentation for the `-newkey` argument of [openssl req](https://www.openssl.org/docs/manmaster/man1/req.html) command. The default is to use P-256 ECDSA keys.
+
 ## Issuing certificates
 
-To issue a certificate use `make XXX.crt` target. `XXX` becomes the common name of the certificate subjct, the private key is written to `XXX.key`.
+To issue a certificate use `make XXX.crt` target. `XXX` becomes the common name of the certificate subject, the private key is written to `XXX.key`.
 
 ### Optional Parameters
 
@@ -29,6 +34,7 @@ There are a few optional parameters as well:
  * `DAYS=n` - certificate validity. Default is 365.
  * `ALTN1`, `ALTN2`, `ALTN3` - subect aletrnative DNS names.
  * `CLIENT=1` - generate a client authentication certificate.The default is to generate server certificates.
+ * `KT` - key type. Specifies the key type to use when generating certificate, see documentation for the `-newkey` argument of [openssl req](https://www.openssl.org/docs/manmaster/man1/req.html) command. The default is to use P-256 ECDSA keys.
 
 ## Examples
  * `make example.org.crt`
