@@ -20,20 +20,21 @@ This only needs to be done once.
 
 ## Issuing certificates
 
-To issue a certificate use `make XXX.crt CN=xxx` target. `XXX` is arbitrary and specifies the name of the output file. Along with `XXX.crt`, a key file `XXX.key` wil be generated. `CN` specifies the common name of the certificate subject and is mandatory.
+To issue a certificate use `make XXX.crt` target. `XXX` becomes the common name of the certificate subjct, the private key is written to `XXX.key`.
 
 ### Optional Parameters
 
 There are a few optional parameters as well:
+ * `CN` - Common name of the certificate (instead of taking one from the file's name).
  * `DAYS=n` - certificate validity. Default is 365.
  * `ALTN1`, `ALTN2`, `ALTN3` - subect aletrnative DNS names.
  * `CLIENT=1` - generate a client authentication certificate.The default is to generate server certificates.
 
 ## Examples
- * `make example.crt CN=example.org`
+ * `make example.org.crt`
    * Generates a server certificate for `example.org`
- * `make example.crt CN=example.org ALTN1=www.example.org DAYS=730`
+ * `make server.crt CN=example.org ALTN1=www.example.org DAYS=730`
    * Generates a server certificate for `example.org` and `www.example.org`, valid for 2 years.
- * `make client001.crt CN=client001 CLIENT=1`
+ * `make client.crt CN=client001 CLIENT=1`
    * Generates a client certififcate for `client001`.
  ```

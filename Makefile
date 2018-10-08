@@ -43,6 +43,9 @@ ca: check-ca-data $(CA_DATA_DIR) $(CA_DATA_DIR)/ca.crt
 	cat $(CA_DATA_DIR)/ca.crt
 
 %.csr:
+ifeq "$(CN)" ""
+	$(eval CN=$(@:%.csr=%))
+endif
 	openssl req \
 		-out $@ \
 		-keyout $(@:.csr=.key) \
