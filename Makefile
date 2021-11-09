@@ -7,6 +7,7 @@ export ALTN3
 # Generate ECDSA keys by default.
 KT ?= ec:cnf/prime256v1.params
 
+CA ?= 0
 DAYS ?= 365
 CLIENT ?= 0
 
@@ -14,14 +15,23 @@ CA_DN ?=
 CA_DAYS ?= 3653
 CA_DATA_DIR ?= ./data
 
-.PHONY: ca check-ca-data clean clean-ca
+export SIGN_CERT ?= $(CA_DATA_DIR)/ca.crt
+export SIGN_KEY ?= $(SIGN_CERT:.crt=.key)
 
 export CA_DATA_DIR
+
 ifeq "$(CLIENT)" "1"
-export EKU=clientAuth
+export _EKU=clientAuth
 else
-export EKU=serverAuth
+export _EKU=serverAuth
 endif
+ifeq "$(CA)" "1"
+export _CNF=cnf/ca.cnf
+else
+export _CNF=cnf/cert0$(ALTN1:%=1)$(ALTN2:%=2)$(ALTN3:%=3).cnf
+endif
+
+.PHONY: ca check-ca-data clean clean-ca
 
 $(CA_DATA_DIR)/ca.crt: cnf/ca.cnf
 	openssl req \
@@ -59,7 +69,7 @@ endif
 		-newkey $(KT) \
 		-nodes \
 		-text \
-		-config cnf/cert0$(ALTN1:%=1)$(ALTN2:%=2)$(ALTN3:%=3).cnf
+		-config $(_CNF)
 
 %.crt.tmp: %.csr
 	rm -f $(CA_DATA_DIR)/ca.srl

@@ -4,8 +4,8 @@ distinguished_name = dn
 prompt = no
 
 [ext]
-keyUsage = keyAgreement, keyEncipherment, digitalSignature
-extendedKeyUsage = ${ENV::EKU}
+keyUsage = critical, keyAgreement, keyEncipherment, digitalSignature
+extendedKeyUsage = ${ENV::_EKU}
 subjectAltName = @alt_names
 
 [dn]

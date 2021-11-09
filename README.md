@@ -34,7 +34,9 @@ There are a few optional parameters as well:
  * `DAYS=n` - certificate validity. Default is 365.
  * `ALTN1`, `ALTN2`, `ALTN3` - subect aletrnative DNS names.
  * `CLIENT=1` - generate a client authentication certificate.The default is to generate server certificates.
+ * `CA=1` - generate an intermediate CA certificate, you can later use this with `SIGN_CERT`.
  * `KT` - key type. Specifies the key type to use when generating certificate, see documentation for the `-newkey` argument of [openssl req](https://www.openssl.org/docs/manmaster/man1/req.html) command. The default is to use P-256 ECDSA keys.
+ * `SIGN_CERT`, `SIGN_KEY` - signing certificate and key. By default certificate is signed with root CA but can be changed to a different one, e.g. previosuly generated with `CA=1`.
 
 ## Examples
  * `make example.org.crt`
@@ -43,4 +45,8 @@ There are a few optional parameters as well:
    * Generates a server certificate for `example.org` and `www.example.org`, valid for 2 years.
  * `make client.crt CN=client001 CLIENT=1`
    * Generates a client certififcate for `client001`.
+ * `make sub.crt CA=1`
+   * Generates an intermediate CA cert.
+ * `make server.crt DAYS=3652 SIGN_CERT=sub.crt`
+   * Generates server certificate signed by `sub.crt`.
  ```
