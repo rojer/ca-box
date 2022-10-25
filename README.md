@@ -4,8 +4,6 @@ This is a simple way of managing CA using OpenSSL.
 
 It can be used to issue client and server certificates with minimum effort.
 
-Note: ECDSA is used for keys.
-
 ## Initialize the CA
 
 `make ca` will set up the trappings of a CA:
@@ -21,7 +19,7 @@ This only needs to be done once.
 ### Optional Parameters
 
  * `CA_DAYS` - validity for the root certificate, in days. The default is 2653 (~10 years).
- * `KT` - key type. Specifies the key type to use when generating certificate, see documentation for the `-newkey` argument of [openssl req](https://www.openssl.org/docs/manmaster/man1/req.html) command. The default is to use P-256 ECDSA keys.
+ * `KT` - key type. Specifies the key type to use when generating certificate, see documentation for the `-newkey` argument of [openssl req](https://www.openssl.org/docs/manmaster/man1/openssl-req.html) command. The default is to use P-256 ECDSA keys.
 
 ## Issuing certificates
 
@@ -35,7 +33,7 @@ There are a few optional parameters as well:
  * `ALTN1`, `ALTN2`, `ALTN3` - subect aletrnative DNS names.
  * `CLIENT=1` - generate a client authentication certificate.The default is to generate server certificates.
  * `CA=1` - generate an intermediate CA certificate, you can later use this with `SIGN_CERT`.
- * `KT` - key type. Specifies the key type to use when generating certificate, see documentation for the `-newkey` argument of [openssl req](https://www.openssl.org/docs/manmaster/man1/req.html) command. The default is to use P-256 ECDSA keys.
+ * `KT` - key type. Specifies the key type to use when generating certificate, see documentation for the `-newkey` argument of [openssl req](https://www.openssl.org/docs/manmaster/man1/openssl-req.html) command. The default is to use P-256 ECDSA keys.
  * `SIGN_CERT`, `SIGN_KEY` - signing certificate and key. By default certificate is signed with root CA but can be changed to a different one, e.g. previosuly generated with `CA=1`.
 
 ## Examples
