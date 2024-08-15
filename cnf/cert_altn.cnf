@@ -1,17 +1,22 @@
+# vim: syntax=dosini
+
 [req]
 req_extensions = ext
-distinguished_name = dn
 prompt = no
 
 [ext]
 keyUsage = critical, keyAgreement, keyEncipherment, digitalSignature
 extendedKeyUsage = ${ENV::_EKU}
-subjectAltName = @alt_names
+subjectAltName = @alt_names${ENV::_ALTN_SECTION}
 
-[dn]
-CN = ${ENV::CN}
+[alt_names1]
+DNS.1 = ${ENV::ALTN1}
 
-[alt_names]
+[alt_names12]
+DNS.1 = ${ENV::ALTN1}
+DNS.2 = ${ENV::ALTN2}
+
+[alt_names123]
 DNS.1 = ${ENV::ALTN1}
 DNS.2 = ${ENV::ALTN2}
 DNS.3 = ${ENV::ALTN3}
